@@ -4,13 +4,17 @@ var containerEl = document.querySelector("#container");
 var questionEl = document.getElementById("question");
 var choicesEl = document.getElementById("answer-choices");
 var pEl = document.getElementById("introduction");
-var questionsArray = ["q1", "q2", "q3", "q4", "q5"];
-var a1Array = ["a1", "a2", "a3", "a4"];
-var a2Array = ["a1", "a2", "a3", "a4"];
-var a3Array = ["a1", "a2", "a3", "a4"];
-var a4Array = ["a1", "a2", "a3", "a4"];
-var a5Array = ["a1", "a2", "a3", "a4"];
+var questionsArray = ["What type of file holds the styling attributes to an HTML document?", "An HTML file can have more than one CSS file linked to it.", "q3", "q4", "q5"];
+var a1Array = [".html", ".css", ".js", ".com"];
+var a2Array = ["true", "false"];
+var a3Array = ["c1", "a2", "a3", "a4"];
+var a4Array = ["d1", "a2", "a3", "a4"];
+var a5Array = ["e1", "a2", "a3", "a4"];
 var counter = 0;
+var questionsObj = {
+  question: questionsArray,
+  choices: [a1Array, a2Array, a3Array, a4Array, a5Array]
+}
 
 
 var beginQuiz = function() {
@@ -36,18 +40,15 @@ var beginQuiz = function() {
 var questions = function () {
   questionEl.removeAttribute("class");
   choicesEl.removeAttribute("class");
-  questionEl.textContent = questionsArray[counter];
-  if (counter < questionsArray.length) {
+  questionEl.textContent = questionsObj.question[counter];
+  choicesEl.textContent = questionsObj.choices[counter];
+  if (counter < questionsObj.choices.length) {
     counter++;
   } else {
     location.reload();
   }
-
 }
 
-
-
-  
 
 
 
