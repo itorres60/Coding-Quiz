@@ -1,10 +1,7 @@
-ul {
+.nav {
     display: flex;
     justify-content: space-between;
     margin: 20px 40px 10px 40px;
-}
-
-li {
     list-style: none;
     font-size: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,4 +9,16 @@ li {
 
 .high-scores {
     color: blueviolet;
+}
+
+.questions {
+    display: none;
+}
+.answer-choices {
+    display: none;
+
+}
+.choices {
+    list-style: upper-alpha;
+
 }
