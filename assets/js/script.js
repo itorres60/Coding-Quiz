@@ -1,4 +1,5 @@
 var choicesIdCounter = 0;
+var timeLeft = 75
 var startButtonEl = document.getElementById("start-button");
 var highScoresEl = document.getElementById("high-scores");
 var timerEl = document.getElementById("timer");
@@ -18,11 +19,11 @@ var questionsObj = {
   question: questionsArray,
   choices: [a1Array, a2Array, a3Array, a4Array, a5Array]
 }
+var score = [];
 
 
 var beginQuiz = function() {
   // Start Timer
-  var timeLeft = 75
   var timer = setInterval(function() {
     document.getElementById('timer').innerHTML = "Time: " + timeLeft;
     timeLeft--;
@@ -68,33 +69,22 @@ function questions() {
     x[i].id = "ans" + choicesIdCounter;;
     choicesIdCounter++;
   }
-  console.log(x)
-  // assign variable to CORRECT answers
 
 
-  // initiate click functionality
+  // initiate click functionality listen to CORRECT answers.  All others are wrong.
   document.getElementById("answers").addEventListener("click", function(e) {
-  if ((e.target && e.target.matches("li#ans0")) || (e.target && e.target.matches("li#ans4")) || (e.target && e.target.matches("li#ans9")) || (e.target && e.target.matches("li#ans11"))) {
-    alert("well done");
+  if ((e.target && e.target.matches("li#ans0")) || (e.target && e.target.matches("li#ans4")) || (e.target && e.target.matches("li#ans9")) || (e.target && e.target.matches("li#ans11")) || (e.target && e.target.matches("li#ans14"))) {
+    score.push(20);
     questions();
   } else {
-    alert("Please try again");
+    timeLeft---
+    timeLeft---
+    timeLeft---
+    questions();
     return;
   }
-});
-
-
+  });
 }
-
-
-
-
-
-
-
-
-
-
 
 var endQuiz = function() {
   var submitButton = document.createElement("button");
@@ -102,7 +92,7 @@ var endQuiz = function() {
   h1El.style.display = "block";
   h1El.textContent = "All done!";
   pEl.style.display = "inline";
-  pEl.textContent = "Your final score is: 100"
+  pEl.textContent = "Your final score is: " + score.reduce((a,b) => a + b,0);
   
   var form = document.createElement("div");
   var input = document.createElement("input");
@@ -122,9 +112,6 @@ var endQuiz = function() {
 var viewHighScores = function() {
   highScoresEl.setAttribute("type", "button");
 }
-
-
-
 
 startButtonEl.onclick = beginQuiz;
 questionEl.addEventListener("click", questions);
