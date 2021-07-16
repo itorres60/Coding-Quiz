@@ -1,7 +1,8 @@
 .nav {
     display: flex;
     justify-content: space-between;
-    margin: 20px 40px 10px 40px;
+    padding: 0;
+    margin: 20px 40px 20px 10px;
     list-style: none;
     font-size: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,6 +20,3 @@ ul {
     list-style: upper-alpha;
 }
 
-li.0 {
-    color: blue;
-}
