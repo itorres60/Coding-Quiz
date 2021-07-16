@@ -14,11 +14,7 @@
 .questions {
     display: none;
 }
-.answer-choices {
-    display: none;
 
-}
-.choices {
+ul {
     list-style: upper-alpha;
-
 }
