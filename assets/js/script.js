@@ -1,3 +1,4 @@
+var choicesIdCounter = 0;
 var startButtonEl = document.getElementById("start-button");
 var highScoresEl = document.getElementById("high-scores");
 var timerEl = document.getElementById("timer");
@@ -18,6 +19,7 @@ var questionsObj = {
   choices: [a1Array, a2Array, a3Array, a4Array, a5Array]
 }
 
+
 var beginQuiz = function() {
   // Start Timer
   var timeLeft = 75
@@ -28,7 +30,7 @@ var beginQuiz = function() {
       clearInterval(timer);
     }
   }, 1000);
-
+  
   //remove welcome elements
   h1El.style.display = "none";
   pEl.style.display = "none";
@@ -38,7 +40,8 @@ var beginQuiz = function() {
 }
 
 // Begin Questions
-var questions = function () {
+function questions() {
+  // Cycle through the arrays of questions and answer chocices
   questionEl.removeAttribute("class");
   choicesEl.removeAttribute("class");
   questionEl.textContent = questionsObj.question[counter];
@@ -46,20 +49,52 @@ var questions = function () {
   
   if (counter < questionsObj.choices.length) {
     counter++;
-    var text = "<ul>";
-    questionsObj.choices[counter - 1].forEach(myFunction);
+    // assign choices array values to li elements in the DOM
+    var text = "<ul id = 'answers'>";
+    questionsObj.choices[counter - 1].forEach(listValues);
     text += "</ul>";
     choicesEl.innerHTML = text;
-  
-    function myFunction(value) {
+    
+    function listValues(value) {
       text += "<li>" + value + "</li>";
     }
   } else {
     endQuiz();
   }
+  // assign Id to each individual choices array value
+  var choiceId = document.getElementById("choices");
+  var x = choiceId.querySelectorAll("li");
+  for (var i = 0; i < x.length; i++) {
+    x[i].id = "ans" + choicesIdCounter;;
+    choicesIdCounter++;
+  }
+  console.log(x)
+  // assign variable to CORRECT answers
+
+
+  // initiate click functionality
+  document.getElementById("answers").addEventListener("click", function(e) {
+  if ((e.target && e.target.matches("li#ans0")) || (e.target && e.target.matches("li#ans4")) || (e.target && e.target.matches("li#ans9")) || (e.target && e.target.matches("li#ans11"))) {
+    alert("well done");
+    questions();
+  } else {
+    alert("Please try again");
+    return;
+  }
+});
 
 
 }
+
+
+
+
+
+
+
+
+
+
 
 var endQuiz = function() {
   var submitButton = document.createElement("button");
@@ -92,6 +127,5 @@ var viewHighScores = function() {
 
 
 startButtonEl.onclick = beginQuiz;
-choicesEl.addEventListener("click", questions);
+questionEl.addEventListener("click", questions);
 viewHighScores();
-

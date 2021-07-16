@@ -18,3 +18,7 @@
 ul {
     list-style: upper-alpha;
 }
+
+li.0 {
+    color: blue;
+}
