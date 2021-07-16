@@ -76,7 +76,7 @@ var endQuiz = function() {
   input.placeholder = "Enter initials here";
   form.textContent = "Enter initials here: "
   containerEl.appendChild(form);
-  form.appendChild(dummyText);
+  form.appendChild(input);
   form.appendChild(submitButton);
 
   var startOver = document.createElement("p");
