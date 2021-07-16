@@ -1,3 +1,5 @@
+var choicesIdCounter = 0;
+var timeLeft = 75
 var startButtonEl = document.getElementById("start-button");
 var highScoresEl = document.getElementById("high-scores");
 var timerEl = document.getElementById("timer");
@@ -17,10 +19,11 @@ var questionsObj = {
   question: questionsArray,
   choices: [a1Array, a2Array, a3Array, a4Array, a5Array]
 }
+var score = [];
+
 
 var beginQuiz = function() {
   // Start Timer
-  var timeLeft = 75
   var timer = setInterval(function() {
     document.getElementById('timer').innerHTML = "Time: " + timeLeft;
     timeLeft--;
@@ -28,7 +31,7 @@ var beginQuiz = function() {
       clearInterval(timer);
     }
   }, 1000);
-
+  
   //remove welcome elements
   h1El.style.display = "none";
   pEl.style.display = "none";
@@ -38,7 +41,8 @@ var beginQuiz = function() {
 }
 
 // Begin Questions
-var questions = function () {
+function questions() {
+  // Cycle through the arrays of questions and answer chocices
   questionEl.removeAttribute("class");
   choicesEl.removeAttribute("class");
   questionEl.textContent = questionsObj.question[counter];
@@ -46,19 +50,40 @@ var questions = function () {
   
   if (counter < questionsObj.choices.length) {
     counter++;
-    var text = "<ul>";
-    questionsObj.choices[counter - 1].forEach(myFunction);
+    // assign choices array values to li elements in the DOM
+    var text = "<ul id = 'answers'>";
+    questionsObj.choices[counter - 1].forEach(listValues);
     text += "</ul>";
     choicesEl.innerHTML = text;
-  
-    function myFunction(value) {
+    
+    function listValues(value) {
       text += "<li>" + value + "</li>";
     }
   } else {
     endQuiz();
   }
+  // assign Id to each individual choices array value
+  var choiceId = document.getElementById("choices");
+  var x = choiceId.querySelectorAll("li");
+  for (var i = 0; i < x.length; i++) {
+    x[i].id = "ans" + choicesIdCounter;;
+    choicesIdCounter++;
+  }
 
 
+  // initiate click functionality listen to CORRECT answers.  All others are wrong.
+  document.getElementById("answers").addEventListener("click", function(e) {
+  if ((e.target && e.target.matches("li#ans0")) || (e.target && e.target.matches("li#ans4")) || (e.target && e.target.matches("li#ans9")) || (e.target && e.target.matches("li#ans11")) || (e.target && e.target.matches("li#ans14"))) {
+    score.push(20);
+    questions();
+  } else {
+    timeLeft---
+    timeLeft---
+    timeLeft---
+    questions();
+    return;
+  }
+  });
 }
 
 var endQuiz = function() {
@@ -67,7 +92,7 @@ var endQuiz = function() {
   h1El.style.display = "block";
   h1El.textContent = "All done!";
   pEl.style.display = "inline";
-  pEl.textContent = "Your final score is: 100"
+  pEl.textContent = "Your final score is: " + score.reduce((a,b) => a + b,0);
   
   var form = document.createElement("div");
   var input = document.createElement("input");
@@ -88,10 +113,6 @@ var viewHighScores = function() {
   highScoresEl.setAttribute("type", "button");
 }
 
-
-
-
 startButtonEl.onclick = beginQuiz;
-choicesEl.addEventListener("click", questions);
+questionEl.addEventListener("click", questions);
 viewHighScores();
-
