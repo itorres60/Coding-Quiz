@@ -1,5 +1,5 @@
 var choicesIdCounter = 0;
-var timeLeft = 75
+var timeLeft = 50
 var startButtonEl = document.getElementById("start-button");
 var highScoresEl = document.getElementById("high-scores");
 var timerEl = document.getElementById("timer");
@@ -21,20 +21,43 @@ var questionsObj = {
 }
 var score = [];
 
+var timer = setInterval(function() {
+  document.getElementById('timer').innerHTML = "Time: " + timeLeft;
+    timeLeft--;
+  if (timeLeft < 0) {
+    alert("You have ran out of time!");
+    clearInterval(timer);
+    questionEl.textContent = "";
+    choicesEl.textContent = "";
+    endQuiz();
+  }
+  }, 1000);
+
+
+
+var initialsFormHandler = function (event) {
+  event.preventDefault();
+
+  initialsInput = document.getElementById("initials").value;
+    // check if inputs are empty (validate)
+    if (!initialsInput) {
+      alert("You need to fill out the task form!");
+      return false;
+    }
+  
+    // reset form fields for next task to be entered
+    document.querySelector("input[name='enter-initials']").value = "";
+
+}
 
 var beginQuiz = function() {
   // Start Timer
-  var timer = setInterval(function() {
-    document.getElementById('timer').innerHTML = "Time: " + timeLeft;
-    timeLeft--;
-    if (timeLeft < 0) {
-      clearInterval(timer);
-    }
-  }, 1000);
-  
+  timeLeft = 50;
+  document.getElementById("timer").style.display = "inline"
   //remove welcome elements
   h1El.style.display = "none";
   pEl.style.display = "none";
+  document.getElementById("start-button").remove();
   startButtonEl.remove();
   // go to questions function
   questions();
@@ -42,6 +65,7 @@ var beginQuiz = function() {
 
 // Begin Questions
 function questions() {
+
   // Cycle through the arrays of questions and answer chocices
   questionEl.removeAttribute("class");
   choicesEl.removeAttribute("class");
@@ -61,6 +85,7 @@ function questions() {
     }
   } else {
     endQuiz();
+    return;
   }
   // assign Id to each individual choices array value
   var choiceId = document.getElementById("choices");
@@ -68,18 +93,17 @@ function questions() {
   for (var i = 0; i < x.length; i++) {
     x[i].id = "ans" + choicesIdCounter;;
     choicesIdCounter++;
+
   }
 
 
   // initiate click functionality listen to CORRECT answers.  All others are wrong.
-  document.getElementById("answers").addEventListener("click", function(e) {
-  if ((e.target && e.target.matches("li#ans0")) || (e.target && e.target.matches("li#ans4")) || (e.target && e.target.matches("li#ans9")) || (e.target && e.target.matches("li#ans11")) || (e.target && e.target.matches("li#ans14"))) {
+  document.getElementById("answers").addEventListener("click", function(choices) {
+  if ((choices.target && choices.target.matches("li#ans0")) || (choices.target && choices.target.matches("li#ans4")) || (choices.target && choices.target.matches("li#ans9")) || (choices.target && choices.target.matches("li#ans11")) || (choices.target && choices.target.matches("li#ans14"))) {
     score.push(20);
     questions();
   } else {
-    timeLeft---
-    timeLeft---
-    timeLeft---
+    timeLeft += -10 //time = time + (-10)
     questions();
     return;
   }
@@ -87,32 +111,42 @@ function questions() {
 }
 
 var endQuiz = function() {
+  clearInterval(timer);
+  timerEl.remove();
   var submitButton = document.createElement("button");
+  submitButton.id = "submit";
   submitButton.textContent = "Submit";
   h1El.style.display = "block";
   h1El.textContent = "All done!";
   pEl.style.display = "inline";
   pEl.textContent = "Your final score is: " + score.reduce((a,b) => a + b,0);
   
-  var form = document.createElement("div");
+ 
+  var form = document.createElement("form");
   var input = document.createElement("input");
+  input.id = "initials"
   input.type = "text";
   input.name = "enter-initials";
   input.placeholder = "Enter initials here";
   form.textContent = "Enter initials here: "
+  form.id = "form-div"
   containerEl.appendChild(form);
   form.appendChild(input);
   form.appendChild(submitButton);
 
-  var startOver = document.createElement("p");
-  startOver.textContent = "Start Over";
-  containerEl.appendChild(startOver);
+  document.getElementById("form-div").addEventListener("click", function (hello){
+    if (hello.target && hello.target.matches("submit")) {
+      alert("hello");
+    }
+  });
 }
 
-var viewHighScores = function() {
-  highScoresEl.setAttribute("type", "button");
-}
+
+document.getElementById("high-scores").addEventListener("click", function (viewHighScores){
+  if (viewHighScores.target && viewHighScores.target.matches("li#high-scores")) {
+    alert(score.reduce((a,b) => a + b,0));
+  }
+});
 
 startButtonEl.onclick = beginQuiz;
 questionEl.addEventListener("click", questions);
-viewHighScores();
