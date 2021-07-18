@@ -1,15 +1,13 @@
 .nav {
     display: flex;
     justify-content: space-between;
-    margin: 20px 40px 10px 40px;
+    padding: 0;
+    margin: 20px 40px 20px 10px;
     list-style: none;
     font-size: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.high-scores {
-    color: blueviolet;
-}
 
 .questions {
     display: none;
@@ -19,6 +17,17 @@ ul {
     list-style: upper-alpha;
 }
 
-li.0 {
-    color: blue;
+.timer {
+    display: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    background-color: lightgrey;
+    border-radius: 10%;
+    padding: 20px;
+    width: 500px;
+
 }
