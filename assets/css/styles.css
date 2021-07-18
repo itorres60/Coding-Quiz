@@ -21,3 +21,13 @@ ul {
     display: none;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    background-color: lightgrey;
+    border-radius: 10%;
+    padding: 20px;
+    width: 500px;
+
+}

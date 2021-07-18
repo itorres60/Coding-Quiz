@@ -1,11 +1,12 @@
 var choicesIdCounter = 0;
-var timeLeft = 50
+var timeLeft = 5000
 var startButtonEl = document.getElementById("start-button");
 var highScoresEl = document.getElementById("high-scores");
 var timerEl = document.getElementById("timer");
 var containerEl = document.querySelector("#container");
 var questionEl = document.getElementById("question");
 var choicesEl = document.getElementById("choices");
+var formEl = document.getElementById("form-div");
 var h1El = document.getElementById("h1");
 var pEl = document.getElementById("introduction");
 var questionsArray = ["What type of file holds the styling attributes to an HTML document?", "An HTML file can have more than one CSS file linked to it.", "A CSS rule consists of a selector and a declaration.  What is the proper syntax structure of a declaration following the selector?", "Which method is used to store data to the browsers storage?", "Javescript can be written and executed within an HTML file."];
@@ -20,6 +21,7 @@ var questionsObj = {
   choices: [a1Array, a2Array, a3Array, a4Array, a5Array]
 }
 var score = [];
+var nameForScore = [];
 
 var timer = setInterval(function() {
   document.getElementById('timer').innerHTML = "Time: " + timeLeft;
@@ -134,19 +136,44 @@ var endQuiz = function() {
   form.appendChild(input);
   form.appendChild(submitButton);
 
-  document.getElementById("form-div").addEventListener("click", function (hello){
-    if (hello.target && hello.target.matches("submit")) {
-      alert("hello");
-    }
-  });
+  // document.getElementById("form-div").addEventListener("click", function (hello){
+  //   if (hello.target && hello.target.matches("submit")) {
+  //     alert("hello");
+  //   }
+  // });
+  saveScore();
+  
+  document.getElementById("form-div").addEventListener("submit", initialsHandler)
 }
 
+var initialsHandler = function (event) {
+  event.preventDefault();
+  var initialsInput = document.getElementById("initials").value;
+  if (!initialsInput) {
+    alert("Please enter your intitials");
+    return false;
+  } else {
+    nameForScore.push(initialsInput);
+    localStorage.setItem("nameForScore", nameForScore);
+  }
+  alert("High score saved!");
+  location.reload();
 
+}
 document.getElementById("high-scores").addEventListener("click", function (viewHighScores){
   if (viewHighScores.target && viewHighScores.target.matches("li#high-scores")) {
-    alert(score.reduce((a,b) => a + b,0));
+    if (localStorage.getItem("nameForScore") || localStorage.getItem("score")) {
+    alert("High scores: \n" + localStorage.getItem("nameForScore") + ": " + localStorage.getItem("score"));
+    } else {
+      alert("No high scores yet.  Please comeplete the quiz to register a high score :D")
+    }
   }
 });
+
+var saveScore = function() {
+  localStorage.setItem("score", JSON.stringify(score.reduce((a,b) => a + b,0)));
+}
+
 
 startButtonEl.onclick = beginQuiz;
 questionEl.addEventListener("click", questions);
