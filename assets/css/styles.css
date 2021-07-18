@@ -1,3 +1,6 @@
+
+
+
 .nav {
     display: flex;
     justify-content: space-between;
@@ -25,9 +28,48 @@ ul {
     display: flex;
     flex-direction: column;
     margin: auto;
+    max-width: 90%;
     background-color: lightgrey;
     border-radius: 10%;
     padding: 20px;
     width: 500px;
 
 }
+
+#question {
+    border-radius: 50px;
+    background-color: lightyellow;
+    padding: 20px
+}
+
+#choices li {
+    width: auto;
+    background-color: lightsalmon;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 7%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-weight: bold;
+}
+
+#choices li:hover {
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+h1 {
+    background-color:  lightyellow;
+    border-radius: 20%;
+    padding: 10px;
+    text-align: center;
+}
+ button {
+margin: auto;
+     width: 50px;
+ }
+
+ #submit {
+     width: 100px;
+     margin: 10px 0 0 10px ;
+ }

@@ -1,5 +1,5 @@
 var choicesIdCounter = 0;
-var timeLeft = 5000
+var timeLeft = 50000
 var startButtonEl = document.getElementById("start-button");
 var highScoresEl = document.getElementById("high-scores");
 var timerEl = document.getElementById("timer");
@@ -29,7 +29,7 @@ var timer = setInterval(function() {
   if (timeLeft < 0) {
     alert("You have ran out of time!");
     clearInterval(timer);
-    questionEl.textContent = "";
+    questionEl.remove();
     choicesEl.textContent = "";
     endQuiz();
   }
@@ -113,6 +113,7 @@ function questions() {
 }
 
 var endQuiz = function() {
+  questionEl.remove();
   clearInterval(timer);
   timerEl.remove();
   var submitButton = document.createElement("button");
